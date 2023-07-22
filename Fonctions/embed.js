@@ -14,7 +14,7 @@ function warnEmbed(user, reason) {
     const embed = new EmbedBuilder()
         .setTitle(`${user.tag} à reçu un warn`)
         .setThumbnail(user.displayAvatarURL({dynamic: true}))
-        .setColor("0xff7300")
+        .setColor("#FF7300")
         .setDescription(`
           ${user.tag} à reçu un warn pour la raison suivante : 
           > ${reason}
@@ -36,7 +36,7 @@ function warnsEmbed(user, warns = []) {
     const embed = new EmbedBuilder()
         .setTitle(`Warns de ${user.tag}`)
         .setThumbnail(user.displayAvatarURL({dynamic: true}))
-        .setColor("0xff7300")
+        .setColor("#FF7300")
         .setDescription(`
             ${description}
         `)
@@ -50,7 +50,7 @@ function muteEmbed(user, reason, time) {
     const embed = new EmbedBuilder()
         .setTitle(`${user.tag} à été mute`)
         .setThumbnail(user.displayAvatarURL({dynamic: true}))
-        .setColor("0xff7300")
+        .setColor("#FF7300")
         .setDescription(`
             ${user.tag} à été mute pour la raison suivante : 
             > ${reason}
@@ -66,7 +66,7 @@ function unmuteEmbed(user, reason) {
     const embed = new EmbedBuilder()
         .setTitle(`${user.tag} à été unmute`)
         .setThumbnail(user.displayAvatarURL({dynamic: true}))
-        .setColor("0xff7300")
+        .setColor("#FF7300")
         .setDescription(`
             ${user.tag} à été unmute pour la raison suivante :
             > ${reason}
@@ -84,7 +84,7 @@ function mutesEmbed(user, mutes = []) {
     const embed = new EmbedBuilder()
         .setTitle(`Mutes de ${user.tag}`)
         .setThumbnail(user.displayAvatarURL({dynamic: true}))
-        .setColor("0xff7300")
+        .setColor("#FF7300")
         .setDescription(`
             ${description}
         `)
@@ -98,7 +98,7 @@ function banEmbed(user, reason) {
     const embed = new EmbedBuilder()
         .setTitle(`${user.tag} à été bannis`)
         .setThumbnail(user.displayAvatarURL({dynamic: true}))
-        .setColor("0xff7300")
+        .setColor("#FF7300")
         .setDescription(`
             ${user.tag} à été bannis pour la raison suivante :
             > ${reason}
@@ -120,9 +120,38 @@ function bansEmbed(bans = [], length) {
 
     const embed = new EmbedBuilder()
         .setTitle(`Bans récents`)
-        .setColor("0xff7300")
+        .setColor("##FF7300")
         .setDescription(`
             ${description}
+        `)
+        .setFooter({text: `© WezBot | ${config.version}`})
+        .setTimestamp()
+
+    return embed;
+}
+
+function dailyEmbed(user, money, gains, date_times) {
+    const embed = new EmbedBuilder()
+        .setTitle(`Récompense journalière`)
+        .setColor("#FF7300")
+        .setDescription(`
+            ${user.tag} à reçu ${gains} $\n
+            Solde : ${money} $\n
+            Vous pouvez récupérer votre récompense dans ${date = new Date().getTime - date.getTime}
+        `)
+        .setFooter({text: `© WezBot | ${config.version}`})
+        .setTimestamp()
+
+    return embed;
+}
+
+function addMoney(user, money, gain) {
+    const embed = new EmbedBuilder()
+        .setTitle(`Ajoute d'argent`)
+        .setColor("#FF7300")
+        .setDescription(`
+            ${user.tag} à reçu ${gain} $\n
+            Solde : ${money} $\n
         `)
         .setFooter({text: `© WezBot | ${config.version}`})
         .setTimestamp()
@@ -139,5 +168,7 @@ module.exports = {
     unmuteEmbed,
     mutesEmbed,
     banEmbed,
-    bansEmbed
+    bansEmbed,
+    dailyEmbed,
+    addMoney
 }
