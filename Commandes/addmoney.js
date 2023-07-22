@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 
-const { dailyEmbed } = require('../Fonctions/embed.js')
+const { addMoney } = require('../Fonctions/embed.js')
 
 const fs = require('fs');
 const path = require('node:path');
@@ -112,7 +112,8 @@ module.exports = {
               money: money,
               date_time: dailyUser.date_time
           });
-            message.reply(`${user} a reçu ${gains} coins !\nSolde : ${money}`);
+          const embed = addMoney(user, money, gains)
+            message.reply({embeds: [embed]});
         } else {
             dailys.push({
                 user_id: user.id,
@@ -121,7 +122,8 @@ module.exports = {
                 money: gains,
                 date_time: date.getTime()
             });
-            message.reply(`${user} a reçu ${gains} coins !\nSolde : ${gains}`);
+            const embed = addMoney(user, gains, gains)
+            message.reply({embeds: [embed]});
         }
 
         serialize(jsonDbPath, dailys);
