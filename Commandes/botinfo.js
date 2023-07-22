@@ -34,7 +34,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                 .setTitle(`Informations du bot`)
                 .setThumbnail(bot.user.displayAvatarURL({dynamic: true}))
-                .setColor("0xff7300")
+                .setColor("FF7300")
                 .setDescription(`
                 __**Information Bot**__
                 > **Developpeur :** <@${config.ownerID}>
