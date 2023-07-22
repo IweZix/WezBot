@@ -123,7 +123,7 @@ module.exports = {
       return message.reply({ embeds: [embed] });
 
     } catch (err) {
-        return message.reply("Pas de membre à bannir !")
+        return message.reply({content: `Une erreure est survenue lors de la commande`, ephemeral: true})
     }
   }
 }

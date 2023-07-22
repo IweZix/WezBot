@@ -123,7 +123,7 @@ module.exports = {
 
     } catch (err) {
         console.log(err)
-        return message.reply("Pas de membre à warn !")
+        return message.reply({content: `Une erreure est survenue lors de la commande`, ephemeral: true});
     }
   }
 }

@@ -43,7 +43,7 @@ module.exports = {
       
 
     } catch (err) {
-        return message.reply("Pas d'utilisateur  à débannir !")
+        return message.reply({content: `Une erreure est survenue lors de la commande`, ephemeral: true});
     }
   }
 }

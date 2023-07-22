@@ -31,7 +31,7 @@ module.exports = {
             const embed = new EmbedBuilder()
             .setTitle(`Informations de ${user.tag}`)
             .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
-            .setColor("0xff7300")
+            .setColor("#FF7300")
             .setDescription(`
             __**Information Utilisateur**__
             
@@ -52,6 +52,7 @@ module.exports = {
             message.reply({embeds: [embed]})
         } catch (error) {
             console.log(error)
+            return message.reply({content: `Une erreure est survenue lors de la commande`, ephemeral: true});
         }
     }
 }

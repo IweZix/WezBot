@@ -113,30 +113,18 @@ module.exports = {
         const indexDonor = bank.indexOf(bankDonor);
 
         // condition
-        if (index === indexDonor) return await message.reply({content: `Le donneur est le même que le receveur`, ephemeral: true});
-        if (!index || !indexDonor) return await message.reply({content: `Le donneur ou le receveur n'as pas de compte en banque`, ephemeral: true});
+        if (index === indexDonor) return message.reply({content: `Le donneur est le même que le receveur`, ephemeral: true});
+        if (!index || !indexDonor) return message.reply({content: `Le donneur ou le receveur n'as pas de compte en banque`, ephemeral: true});
 
-        // retirer argent donneur
-        bank.splice(indexDonor, 1);
-        moneyDonor = bankDonor.money - diff;
-        bank.push({
-            user_id: donor.id,
-            user: donor.tag,
-            server_id: server.id,
-            money: moneyDonor,
-            date_time: bankDonor.date_time
-        })
+        // receveur
+        bank[index].money += diff;
+        bank[index].date_time = Date.now();
 
-        // donner argent receveur
-        bank.splice(index, 1);
-        moneyUser = bankUser.money + diff;
-        bank.push({
-            user_id: user.id,
-            user: user.tag,
-            server_id: server.id,
-            money: moneyUser,
-            date_time: bankDonor.date_time 
-        })
+        // donateur
+        bank[indexDonor].money -= diff;
+        bank[indexDonor].date_time = Date.now();
+
+        // sauvegarde
 
         serialize(jsonDbPath, bank);
 

@@ -87,11 +87,10 @@ module.exports = {
         if (dailyUser) {
             dailys.splice(index, 1);
             if (!oneDayPassed(dailyUser.date_time, date.getTime())) {
-                return message.reply("Vous avez déjà fait votre daily aujourd'hui");
+                return await message.reply("Vous avez déjà fait votre daily aujourd'hui");
             }
             money = dailyUser.money + gains;
             dailys[index].money = money;
-            console.log(money)
             dailys[index].date_time = date;
             await message.reply(`Vous avez gagné ${gains} coins !\nSolde : `);
         } else {

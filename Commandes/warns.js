@@ -105,7 +105,7 @@ module.exports = {
 
     } catch (err) {
         console.log(err)
-        return message.reply("Une erreur est survenue lors de l'exécution de la commande !");
+        return message.reply({content: `Une erreure est survenue lors de la commande`, ephemeral: true});
     }
   }
 }

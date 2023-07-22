@@ -34,7 +34,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                 .setTitle(`Informations du serveur`)
                 .setThumbnail(message.guild.iconURL({dynamic: true}))
-                .setColor("0xff7300")
+                .setColor("#FF7300")
                 .setDescription(`
                 __**Information Serveur**__
                 > **Nom :** ${message.guild.name}
@@ -64,6 +64,7 @@ module.exports = {
                 message.reply({embeds: [embed], components: [button]})
         } catch (error) {
             console.log(error)
+            return message.reply({content: `Une erreure est survenue lors de la commande`, ephemeral: true});
         }
     }
 }

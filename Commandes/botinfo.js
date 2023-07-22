@@ -34,7 +34,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                 .setTitle(`Informations du bot`)
                 .setThumbnail(bot.user.displayAvatarURL({dynamic: true}))
-                .setColor("FF7300")
+                .setColor("#FF7300")
                 .setDescription(`
                 __**Information Bot**__
                 > **Developpeur :** <@${config.ownerID}>
@@ -56,6 +56,7 @@ module.exports = {
                 message.reply({embeds: [embed], components: [button]})
         } catch (error) {
             console.log(error)
+            return message.reply({content: `Une erreure est survenue lors de la commande`, ephemeral: true});
         }
     }
 }

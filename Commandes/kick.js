@@ -50,6 +50,7 @@ module.exports = {
       await member.kick(reason)
     } catch (error) {
       console.log(error)
+      return message.reply({content: `Une erreure est survenue lors de la commande`, ephemeral: true});
     }
   }
 }
