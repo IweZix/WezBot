@@ -16,9 +16,27 @@ function oneDayPassed(oldTime, newTime) {
     } else {
         return false;
     }
-    
+}
+
+/**
+ * Delete a message when timeInMilliseconds was past
+ * @param {String} message 
+ * @param {Integer} timeInMilliseconds 
+ */
+async function waitAndDeleteMessage(message, timeInMilliseconds) {
+    await new Promise(resolve => setTimeout(resolve, timeInMilliseconds));
+    message.delete();
+}
+
+function isBot(user) {
+
+}
+
+function isAdmin(user) {
+
 }
 
 module.exports = {
-    oneDayPassed
+    oneDayPassed,
+    waitAndDeleteMessage
 }
