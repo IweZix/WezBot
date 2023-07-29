@@ -323,6 +323,7 @@ module.exports = async (bot, interaction, message) => {
             try {
                 const channel = await interaction.guild.channels.create({
                     name: `ticket-${interaction.user.tag}`,
+                    description: `${interaction.user.id}`,
                     type: Discord.ChannelType.GuildText,
                 })
     
@@ -357,18 +358,21 @@ module.exports = async (bot, interaction, message) => {
 
         // button to close a ticket
         if (interaction.customId === "close") {
-            let user = bot.users.cache.get(interaction.channel.topic)
+            
+            const user = bot.users.cache.get(interaction.channel.topic);
+            const userID = interaction.channel.topic;
+
             try {
-                interaction.channel.permissionOverwrites.create(interaction.guild.roles.everyone, {
-                    ViewChannel: false,
+                interaction.channel.permissionOverwrites.create(userID, {
+                    ViewChannel: true,
                     SendMessages: false,
-                    ReadMessageHistory: false,
+                    ReadMessageHistory: true,
                     AttachFiles: false,
                     EmbedLinks: false,
                 }),
                 user.send({ content: "Votre ticket a été fermé !" })
-                await interaction.deferUpdate();
                 interaction.channel.send({ content: `Ce ticket à été fermé par ${user}`, components: [deleteTicketButton()] })
+                await interaction.deferUpdate();
             } catch (error) {
                 console.log(error);
                 return message.reply({ content: `Une erreure est survenue lors de la commande`, ephemeral: true })
