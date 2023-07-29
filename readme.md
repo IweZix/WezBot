@@ -40,7 +40,7 @@ npm i
 ```javascript
 module.exports = {
     module.exports = {
-    token: "MTA0OTM5NjY4NDA3NTA1MzA3Nw.GhpaL0.ULkOz1W1BZbPA6STv_f3YtCNi1Y-L6LEWDzYFo",
+    token: "YOUR_TOKEN",
     ownerID: "YOUR_ID",
     version: "YOUR_VERSION",
     color: "YOUR_COLOR"
