@@ -6,23 +6,28 @@
 <h1 align="center">Hi There, Welcome to WezBot repository ! </h1>
 <h3 align="center">A multifunctional French bot</h3>
 
-<!-- Repo views -->
-
-<!-- Social media -->
+<!-- Badges -->
+<div align="center">
+    <a href="https://img.shields.io/github/license/IweZix/WezBot"><img src="https://img.shields.io/github/license/IweZix/WezBot" alt="license"/></a>
+    <a href="https://img.shields.io/github/forks/IweZix/WezBot"><img src="https://img.shields.io/github/forks/IweZix/WezBot" alt="forks"/></a>
+    <a href="https://img.shields.io/github/languages/count/IweZix/WezBot"><img src="https://img.shields.io/github/languages/count/IweZix/WezBot" alt="language-count"/></a>
+    <a href="https://img.shields.io/github/issues-pr/IweZix/WezBot"><img src="https://img.shields.io/github/issues-pr/IweZix/WezBot" alt="pull-requests"/></a>
+</div>
 
 <!-- Presentation -->
 # 📜 Presentation
-WezBot is a multifunction bot that takes over the commands necessary for the proper functioning of a Discord server. For convenience, you can directly [add](https://discord.com/api/oauth2/authorize?client_id=1049396684075053077&permissions=8&scope=applications.commands%20bot) WezBot to your server.
+WezBot is a multifunction bot that takes over the commands necessary for the proper functioning of a Discord server. It also has a system of temporary voice and text channels. For convenience, you can directly [add](https://discord.com/api/oauth2/authorize?client_id=1049396684075053077&permissions=8&scope=applications.commands%20bot) WezBot to your server.
 
 [Installation](#🛠️-installation) is quick and easy
 
 <!-- Languages and Tools -->
 # 🚧 Prerequisites
 - [Node.js 16+](https://nodejs.org/en/download/)
+- [discord.js@14.7.1](https://www.npmjs.com/package/discord.js/v/14.7.1)
 
 <!-- Installation -->
 # 🛠️ Installation
-> To install the bot, you must first clone the repository :
+> To install the bot, you must first clone the repository OR download the last [release](https://github.com/IweZix/WezBot/releases) :
 ```javascript
 git clone https://github.com/IweZix/WezBot.git
 ```
