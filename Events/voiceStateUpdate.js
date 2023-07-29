@@ -59,12 +59,12 @@ function createPotentialLastDirectory(filePath) {
 }
 
 /**
- * Permet de créer un salon vocal ou textuel en rejoignant un salon pilote
- * @param {Discord} bot le bot discord
- * @param {Channel} oldState le dernier dans lequel était l'utilisateur
- * @param {Channel} newState le salon dans lequel l'utilisateur est
- * @returns si l'utilisateur rejoint un salon pilote, créer un salon vocal ou textuel
- *          si l'utilisateur quitte un salon vocal vérifie si le salon commence par ___
+ * Allows you to create a voice or text channel by joining a pilot channel
+ * @param {Discord} bot the bot
+ * @param {Channel} oldState last channel where user was
+ * @param {Channel} newState channel where user is
+ * @returns if user join pilote channel create a temp channel
+ *          if user leave a temp channel delete this channel if member size < 1
  */
 module.exports = async (bot, oldState, newState) => {
 
@@ -179,12 +179,10 @@ module.exports = async (bot, oldState, newState) => {
         }
     }
 
-    // Si l'utilisateur quitte un salon vocal mais ne rejoint pas
+    // if user leave a channel but don't join an other
     if (oldChannel !== null && newChannel === null) {
-        // On cherche si le salon dans lequel l'utilisateur était est un salon temp
         let channel = channels.find(channel => channel.id === oldChannel.id)
         if (channel) {
-            // On cherche si le salon temp est un salon pilote ou temp
             if (channel.type === "temp") {
                 if (oldChannel.members.size === 0) {
                     oldChannel.delete();
@@ -195,12 +193,10 @@ module.exports = async (bot, oldState, newState) => {
         }
     }
 
-    // Si l'utilisateur rejoint un salon mais n'en quite pas un
+    // if user join a channel but don't leave another
     if (oldChannel === null && newChannel !== null) {
-        // On cherche si le salon dans lequel l'utilisateur est est un salon pilote
         let channel = channels.find(channel => channel.id === newChannel.id)
         if (channel) {
-            // On cherche si le salon pilote est un salon pilote
             if (channel.type === "pilote") {
                 if (channel.value === '1') {
                     let channel = await newChannel.guild.channels.create({

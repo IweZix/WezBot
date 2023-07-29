@@ -62,9 +62,11 @@ function createPotentialLastDirectory(filePath) {
 
 module.exports = async (bot, message) => {
 
-    // si le message est envoyé par un bot ou dans un dm
+    // if message was send by a bot or in DM
     if (message.author.bot || message.channel.type === Discord.ChannelType.AnnouncementThread.DM) return
 
+
+    
     // add message to json data/message.json
     const messages = parse(jsonDbPath, MESSAGES);
     messages.push({
@@ -79,8 +81,10 @@ module.exports = async (bot, message) => {
     })
     serialize(jsonDbPath, messages);
 
+
+
     // empèche les liens
-    if (message.content.includes("http://") || message.content.includes("https://" || message.content.includes("discord.gg"))) {
+    /*if (message.content.includes("http://") || message.content.includes("https://" || message.content.includes("discord.gg"))) {
         
         // if (message.member.cache.hasPermission("ID_du_role")) return;
         
@@ -89,5 +93,5 @@ module.exports = async (bot, message) => {
             await message.member.send(`Le lien **${message.content}** est interdit sur le serveur **${message.guild.name}**.`)
         } catch (e) {}
         await message.channel.send("Tu ne peux pas envoyer de lien ici !")
-    }
+    }*/
 }

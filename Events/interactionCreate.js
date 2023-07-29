@@ -5,6 +5,9 @@ const fs = require('fs');
 const ms = require('ms');
 const path = require('node:path');
 
+const { closeTicketButton, deleteTicketButton } = require('../Fonctions/button.js')
+const { closeTicketEmbed } = require('../Fonctions/embed.js')
+
 const jsonDbPath = __dirname + '/../data/voicestateupdate.json';
 
 const CHANNELS = [
@@ -48,19 +51,21 @@ function serialize(filePath, object) {
 }
 
 /**
- *
+ * Create the last directory of a file path if it does not exist
  * @param {String} filePath - path to the .json file
  */
 function createPotentialLastDirectory(filePath) {
     const pathToLastDirectory = filePath.substring(0, filePath.lastIndexOf(path.sep));
-
     if (fs.existsSync(pathToLastDirectory)) return;
-
     fs.mkdirSync(pathToLastDirectory);
 }
 
+/**
+ * Delete a message when timeInMilliseconds was past
+ * @param {String} message 
+ * @param {Integer} timeInMilliseconds 
+ */
 async function waitAndDeleteMessage(message, timeInMilliseconds) {
-    // Attendre le délai spécifié avant de supprimer le message
     await new Promise(resolve => setTimeout(resolve, timeInMilliseconds));
     message.delete();
 }
@@ -68,19 +73,25 @@ async function waitAndDeleteMessage(message, timeInMilliseconds) {
 module.exports = async (bot, interaction, message) => {
 
     if (interaction.type === Discord.InteractionType.ApplicationCommand) {
-
-        let command = require(`../Commandes/${interaction.commandName}`)
+        // base
+        // let command = require(`../Commandes/${interaction.commandName}`}`);
+        const command = bot.commands.get(interaction.commandName);
         command.run(bot, interaction, interaction.options, bot.db)
     }
 
 
     if (interaction.isButton()) {
 
-        // annulation
+        // button to cancel a embed
         if (interaction.customId === "cancel") {
             interaction.message.delete()
         }
 
+        // ****************
+        // * PILOTE VOCAL *
+        // ****************
+
+        // button to get pilote vocal embed
         if (interaction.customId === "vocal") {
             interaction.message.delete()
             // embed de base
@@ -95,7 +106,6 @@ module.exports = async (bot, interaction, message) => {
                 .setFooter({ text: `© ${bot.user.username} | ${config.version}` })
                 .setTimestamp()
 
-            // bouton de base
             const button = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -113,6 +123,7 @@ module.exports = async (bot, interaction, message) => {
             interaction.channel.send({ embeds: [embed], components: [button] });
         }
 
+        // button to get create pilote vocal embed
         if (interaction.customId === "create") {
             const channels = parse(jsonDbPath, CHANNELS);
             interaction.message.delete();
@@ -187,7 +198,7 @@ module.exports = async (bot, interaction, message) => {
                         name: `↪ | Créer ton channel`,
                         type: Discord.ChannelType.GuildVoice,
                     })
-                    const replyMsg = await interaction.channel.send({content: `Le salon ${channel} a été créé !`, ephemeral: true})
+                    const replyMsg = await interaction.channel.send({ content: `Le salon ${channel} a été créé !`, ephemeral: true })
 
                     // json
                     channel = {
@@ -210,7 +221,7 @@ module.exports = async (bot, interaction, message) => {
                         name: `↪ | Créer ton channel`,
                         type: Discord.ChannelType.GuildVoice,
                     })
-                    const replyMsg = await interaction.channel.send({content: `Le salon ${channel} a été créé !`, ephemeral: true})
+                    const replyMsg = await interaction.channel.send({ content: `Le salon ${channel} a été créé !`, ephemeral: true })
 
                     // json
                     channel = {
@@ -234,7 +245,7 @@ module.exports = async (bot, interaction, message) => {
                         name: `↪ | Créer ton channel`,
                         type: Discord.ChannelType.GuildVoice,
                     })
-                    const replyMsg = await interaction.channel.send({content: `Le salon ${channel} a été créé !`, ephemeral: true})
+                    const replyMsg = await interaction.channel.send({ content: `Le salon ${channel} a été créé !`, ephemeral: true })
 
                     // json
                     channel = {
@@ -258,8 +269,8 @@ module.exports = async (bot, interaction, message) => {
                         name: `↪ | Créer ton channel`,
                         type: Discord.ChannelType.GuildVoice,
                     })
-                    const replyMsg = await interaction.channel.send({content: `Le salon ${channel} a été créé !`, ephemeral: true})
-                    
+                    const replyMsg = await interaction.channel.send({ content: `Le salon ${channel} a été créé !`, ephemeral: true })
+
                     // json
                     channel = {
                         id: channel.id,
@@ -282,8 +293,8 @@ module.exports = async (bot, interaction, message) => {
                         name: `↪ | Créer ton channel`,
                         type: Discord.ChannelType.GuildVoice,
                     })
-                    const replyMsg = await interaction.channel.send({content: `Le salon ${channel} a été créé !`, ephemeral: true})
-                    
+                    const replyMsg = await interaction.channel.send({ content: `Le salon ${channel} a été créé !`, ephemeral: true })
+
                     // json
                     channel = {
                         id: channel.id,
@@ -303,6 +314,77 @@ module.exports = async (bot, interaction, message) => {
             })
         }
 
+        // **********
+        // * TICKET *
+        // **********
+
+        // button to create a ticket
+        if (interaction.customId === "ticket") {
+            try {
+                const channel = await interaction.guild.channels.create({
+                    name: `ticket-${interaction.user.tag}`,
+                    type: Discord.ChannelType.GuildText,
+                })
+    
+                if (interaction?.channel?.parent?.id)
+                    await channel.setParent(interaction.channel.parent.id)
+    
+                await channel.permissionOverwrites.create(interaction.guild.roles.everyone, {
+                    ViewChannel: false
+                }),
+    
+                await channel.permissionOverwrites.create(interaction.user, {
+                    ViewChannel: true,
+                    SendMessages: true,
+                    ReadMessageHistory: true,
+                    AttachFiles: true,
+                    EmbedLinks: true,
+                }),
+    
+                await channel.setTopic(interaction.user.id);
+    
+                await channel.send({ embeds: [closeTicketEmbed()], components: [closeTicketButton()] })
+    
+                const msg = await interaction.channel.send({ content: `Votre ticket a été créé : ${channel}`, ephemeral: true });
+
+                waitAndDeleteMessage(msg, 3000);
+            } catch (error) {
+                console.log(error);
+                return message.reply({ content: `Une erreure est survenue lors de la commande`, ephemeral: true })
+            }
+        }
+
+
+        // button to close a ticket
+        if (interaction.customId === "close") {
+            let user = bot.users.cache.get(interaction.channel.topic)
+            try {
+                interaction.channel.permissionOverwrites.create(interaction.guild.roles.everyone, {
+                    ViewChannel: false,
+                    SendMessages: false,
+                    ReadMessageHistory: false,
+                    AttachFiles: false,
+                    EmbedLinks: false,
+                }),
+                user.send({ content: "Votre ticket a été fermé !" })
+                await interaction.deferUpdate();
+                interaction.channel.send({ content: `Ce ticket à été fermé par ${user}`, components: [deleteTicketButton()] })
+            } catch (error) {
+                console.log(error);
+                return message.reply({ content: `Une erreure est survenue lors de la commande`, ephemeral: true })
+            }
+        }
+
+        // button to delete a ticket
+        if (interaction.customId === "delete") {
+            try {
+                await interaction.channel.delete()
+            } catch (error) {
+                console.log(error);
+                return message.reply({ content: `Une erreure est survenue lors de la commande`, ephemeral: true })
+            }
+
+        }
 
     }
 }
