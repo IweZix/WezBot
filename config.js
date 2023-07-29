@@ -1,6 +1,6 @@
 module.exports = {
     token: "YOUR_TOKEN",
     ownerID: "YOUR_ID",
-    version: "2.0.0",
+    version: "2.1.1",
     color: "#FF7300"
 }
