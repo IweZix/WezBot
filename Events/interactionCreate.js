@@ -340,7 +340,7 @@ module.exports = async (bot, interaction, message) => {
                     AttachFiles: true,
                     EmbedLinks: true,
                 }),
-    
+                await interaction.deferUpdate();
                 await channel.setTopic(interaction.user.id);
     
                 await channel.send({ embeds: [closeTicketEmbed()], components: [closeTicketButton()] })
@@ -378,6 +378,7 @@ module.exports = async (bot, interaction, message) => {
         // button to delete a ticket
         if (interaction.customId === "delete") {
             try {
+                await interaction.deferUpdate();
                 await interaction.channel.delete()
             } catch (error) {
                 console.log(error);
