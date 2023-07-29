@@ -35,13 +35,16 @@ git clone https://github.com/IweZix/WezBot.git
 ```javascript
 npm i
 ```
-> Finally, you will need to modify [token](#🔐-token) and [ownerID](#ownerid) in the config.js file
+> Finally, you will need to create config.js file
 
 ```javascript
 module.exports = {
-    token: "[TOKEN]",
-    ownerID: "[YOUR_DISCORD_ID]",
-    version: "1.0.0",
+    module.exports = {
+    token: "MTA0OTM5NjY4NDA3NTA1MzA3Nw.GhpaL0.ULkOz1W1BZbPA6STv_f3YtCNi1Y-L6LEWDzYFo",
+    ownerID: "YOUR_ID",
+    version: "YOUR_VERSION",
+    color: "YOUR_COLOR"
+}
 }
 ```
 
