@@ -22,5 +22,9 @@ module.exports = async bot => {
         status: 'online',
     });
 
+    bot.guilds.cache.forEach((guild) => {
+        console.log(`Bot is in guild: ${guild.name} - ID: ${guild.id}`);
+    })
+
     console.log(`✔️ | ${bot.user.tag} est en ligne !`)
 }
