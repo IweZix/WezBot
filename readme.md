@@ -39,12 +39,10 @@ npm i
 
 ```javascript
 module.exports = {
-    module.exports = {
     token: "YOUR_TOKEN",
     ownerID: "YOUR_ID",
     version: "YOUR_VERSION",
     color: "YOUR_COLOR"
-}
 }
 ```
 
